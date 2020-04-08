@@ -1,0 +1,23 @@
+{
+  "name": "testback",
+  "version": "1.0.0",
+  "description": "just writing for learning and testing purpose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "ayushi",
+    "i",
+    "love",
+    "u"
+  ],
+  "author": "Dinesh",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
+}
