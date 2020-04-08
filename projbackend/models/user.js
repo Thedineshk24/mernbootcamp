@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const crypto = require('crypto');
 const uuidv1 = require('uuid/v1');
@@ -25,7 +25,6 @@ var userSchema = new Schema({
         type:String,
         trim:true
     },
-    //TODO: comback here
     encry_password:{
         type:String,
         required:true
@@ -43,7 +42,7 @@ var userSchema = new Schema({
     timestamps:true
 });
 
-userSchema.virtual()
+userSchema.virtual("password")
     .set(function(password){
         this._password = password // _password is a convection
         this.salt = uuidv1();
