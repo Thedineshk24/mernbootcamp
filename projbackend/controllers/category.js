@@ -12,3 +12,33 @@ exports.getCategoryById = (req,res,next,id) => {
         next();
     });
 }
+
+exports.createCategory = (req,res) => {
+    const category = new Category(req.body);
+    category.save((err,category) => {
+        if(err){
+            return res.status(400).json({
+                error: "NOT able to save category in DB"
+            });
+        }
+        res.json({ category });
+        // if u get err use next(); 
+    });
+}
+
+exports.getCategory = (req,res) => {
+    return res.json(req.category);
+}
+
+exports.getAllCategory = (req,res) => {
+    Category.find().exec((err,categories) => {
+        if(err){
+            return res.status(400).json({
+                error: "No categories found"
+            });
+        }
+        res.json( categories );
+        // if u get err use next(); 
+    });
+}
+
