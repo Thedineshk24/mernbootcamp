@@ -26,11 +26,19 @@ exports.createProduct = (req,res) => {
     form.parse(req, (err,fields,file) => {
         if(err){
             return res.status(400).json({
-                error: "problem with a Image"
+                error: "problem with Image"
             });
         }
 
-        //TODO:  restritions in the fields
+        // de-structure the fields
+        const {name,description,price,category,stock} = fields;
+
+        if(!name || !description || !price || !category || !stock){
+            return res.status(400).json({
+                error: "Please Include all fields"
+            });
+        }
+
         let product = new Product(fields);
 
         // handle file here
