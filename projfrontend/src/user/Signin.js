@@ -40,7 +40,6 @@ const Signin = () => {
   };
 
   const performRedirect = () => {
-    //TODO: do a redirection HERE
 
     if (didRedirect) {
       if (user && user.role === 1) {
