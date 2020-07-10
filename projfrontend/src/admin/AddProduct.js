@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import Base from '../core/Base';
 import { Link } from 'react-router-dom';
-import {getCategories} from "./helper/adminapicall"
+import {getCategories, createaProduct} from "./helper/adminapicall"
+import { isAutheticated } from '../auth/helper';
 
 const AddProduct = () => {
+    const {user,token} = isAutheticated();
     const [values , setValues] = useState({
         name : "",
         description : "",
@@ -38,16 +40,46 @@ const AddProduct = () => {
     }, [])
 
 
-    const handleChange = () => {
-
+    const handleChange = name => event => {
+      const value = name === "photo" ? event.target.files[0] : event.target.value
+      formData.set(name,value);
+      setValues({...values, [name] :value})
     }
 
-    const onSubmit = name => event => {
-
+    const onSubmit = (event)=> {
+      event.preventDefault();
+      setValues({...values, error: "", loading : true})
+      createaProduct(user._id, token , formData).then(data => {
+        if(data.error){
+          setValues({...values, error: data.error})
+        }else{
+          setValues({
+            ...values, 
+            name: "",
+            description : "",
+            price : "",
+            photo: "",
+            stock : "",
+            loading: false,
+            createdProduct: data.name
+          })
+        }
+      })
     }
 
 
+    const successMsg = () => (
+      <div className="alert alert-success mt-3" style={{display : createdProduct ? "" : "none"}}>
+        <h4>{createdProduct} created successfully</h4>
+      </div>
+    )
 
+    const errorMsg = () => (
+      <div className="alert alert-warning mt-3" style={{display : !createdProduct  ? "" : "none"}}>
+        <h4>{createdProduct} Failed! </h4>
+      </div>
+      
+    )
     const createProductForm = () => (
         <form >
           <span>Post photo</span>
@@ -96,13 +128,20 @@ const AddProduct = () => {
               placeholder="Category"
             >
               <option>Select</option>
-              <option value="a">a</option>
-              <option value="b">b</option>
+              {
+                categories 
+                && 
+                categories.map((cate,index) => {
+                  return (
+                    <option key={index} value={cate._id}>{cate.name}</option>
+                  )
+                })
+              }
             </select>
           </div>
           <div className="form-group">
             <input
-              onChange={handleChange("quantity")}
+              onChange={handleChange("stock")}
               type="number"
               className="form-control"
               placeholder="Quantity"
@@ -128,6 +167,8 @@ const AddProduct = () => {
 
             <div className="row bg-dark text-white rounded">
                 <div className="col-md-8 offset-md-2">
+                    {successMsg()}
+                    {errorMsg()}
                     {createProductForm()}
                 </div>
             </div>
