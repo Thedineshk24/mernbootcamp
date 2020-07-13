@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,Suspense} from 'react'
 import Base from '../core/Base';
 import { isAutheticated } from '../auth/helper';
 import { Link } from 'react-router-dom';

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, Suspense} from 'react'
 import Base from '../core/Base';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {getCategories, createaProduct} from "./helper/adminapicall"
 import { isAutheticated } from '../auth/helper';
 
@@ -79,7 +79,27 @@ const AddProduct = () => {
         <h4>{createdProduct} Failed! </h4>
       </div>
       
-    )
+    ) 
+
+    // const loadingMsg = () => {
+    //   if(successMsg() == true){
+    //   setValues({...values,loading:true,Redirect:true})
+    //       setTimeout(()=>{
+            
+    //           <Redirect to="/admin/dashboard" />
+            
+    //       },2000)
+    //   }
+    // }
+
+  //  setTimeout(() =>{
+  //     if(successMsg){
+  //       setValues({...values, loading: true, Redirect: true})
+  //       return(
+  //         <Suspense fallback={<Redirect />} />
+  //       )
+  //     }
+  //  },2000 )
     const createProductForm = () => (
         <form >
           <span>Post photo</span>
